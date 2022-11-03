@@ -291,4 +291,22 @@ router.post("/editempl/:email", async (req,res)=>{
 })
 
 
+//DELETE EMP
+router.delete("/deleteempl/:email",async(req,res)=>{
+
+    let deleteEmail = req.params.email;
+    console.log(deleteEmail);
+    try{
+            await EmployeeDB.deleteOne({email:deleteEmail});
+
+     }
+    catch(err)
+    {
+        console.log(err);
+        res.status(409).json({message: err.message});
+    }
+
+})
+
+
 module.exports = router;
