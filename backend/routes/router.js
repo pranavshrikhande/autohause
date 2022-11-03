@@ -277,9 +277,18 @@ router.post("/editempl/:email", async (req,res)=>{
     console.log('edit user now is->',editUser)
 
     try{
-       await EmployeeDB.updateOne({email:updateEmail},editUser);
+       //await EmployeeDB.updateOne({email:updateEmail},editUser);
+       const empdata = await EmployeeDB.findOne({email:updateEmail})
 
+       let identifier = empdata._id.toString();
+
+       console.log('identifieer is', identifier);
+
+       let result =  await EmployeeDB.findByIdAndUpdate({_id:identifier},{
+        $set:{editUser}
+       });
        
+       console.log('result is', result);
       
        res.status(201).json({status:201,editUser});
 
