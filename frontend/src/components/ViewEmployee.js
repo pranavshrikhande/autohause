@@ -23,16 +23,30 @@ const getFile=()=>{
     return fetch("http://localhost:5005/downloadcsv").then((response)=> response.json()).then((data)=>setFile(data));
 }
 
+const deleteUser= async(email)=>{
+
+    console.log('inside delete user');
+    console.log(email);
+
+    try{
+            return await fetch(`http://localhost:5005/deleteempl/${email}`,{
+                method:"DELETE"
+            })
+
+
+    }catch(error){
+        console.log('Error while calling delete user API',error);
+    }
+
+}
+
 const fetchData = () => {
     return fetch("http://localhost:5005/getempdata")
           .then((response) => response.json())
           .then((data) => setUser(data.resp));
   }
 
-  useEffect(() => {
-    fetchData();
-  },[])
-
+  
 useEffect(()=>{
     fetchData();
 },[]);
@@ -81,7 +95,7 @@ const TRow = styled(TableRow)`
                         <TableCell>{user.role}</TableCell>
                         <TableCell>
                             <Button color="primary" variant="contained" style={{marginRight:10}} component={Link} to={`/editUser/${user.email}`}>Edit</Button>
-                            <Button color="error" variant="contained">Delete</Button>
+                            <Button color="error" variant="contained" onClick={()=> deleteUser(user.email)}>Delete</Button>
                         </TableCell>
                         </TRow>
                 ))}
